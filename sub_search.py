@@ -82,19 +82,32 @@ class ScriptHandler:
             if self.pageSource[index][-32:] =='"longBylineText":{"runs":[{"text':                       # Channel name
                 self.channel.append(self.pageSource[index+1].split('"')[0])
                 #print(self.pageSource[index+1].split('"')[0])
-
+            #with open('v.txt','a',encoding="utf-8") as f:
+            #    f.write(self.pageSource[index]) 
             if self.pageSource[index][-32:] == '"publishedTimeText":{"simpleText':                      # published time and views
-                #print(self.pageSource[index+1].split('"')[0])
+                #print(self.pageSource[index])
                 if self.pageSource[index+1][-28:] == '"viewCountText":{"simpleText':
                         self.pubtime.append(self.pageSource[index+1].split('"')[0])
                         #print(self.pageSource[index+1].split('"')[0])
                         self.time.append(self.pageSource[index+4].split('"')[0])
                         #print(self.pageSource[index+4].split('"')[0])
-                        self.views.append(self.pageSource[index+4].split('"')[0])
-            if self.pageSource[index][-33:] == '"shortViewCountText":{"simpleText':
-                if self.pageSource[index+1].split('"')[0] not in self.views:
-                    self.views.append(self.pageSource[index+1].split('"')[0])
-                    #print(self.pageSource[index+1].split('"')[0]) 
+                        #self.views.append(self.pageSource[index+4].split('"')[0])
+
+            #if self.pageSource[index][-32:] == '"publishedTimeText":{"simpleText':
+                #print(self.pageSource[index-5]) 
+            #    if 'views' in self.pageSource[index].split('"')[0]:
+            #        self.views.append(self.pageSource[index].split('"')[0])
+                    #print(self.pageSource[index].split('"')[0]) 
+
+            #if 'shortViewCountText' in self.pageSource[index]:
+                #print(self.pageSource[index+2]) 
+
+            if self.pageSource[index][-66:] == '"shortViewCountText":{"accessibility":{"accessibilityData":{"label':
+                #print(self.pageSource[index+2]) 
+                if self.pageSource[index+2].split('"')[0] not in self.views:
+                    self.views.append(self.pageSource[index+2].split('"')[0])
+                    #print(self.pageSource[index+2].split('"')[0]) 
+            
             if  self.pageSource[index][-76:] == '"microformat":{"playerMicroformatRenderer":{"thumbnail":{"thumbnails":[{"url':
                 temp=index
 
@@ -211,4 +224,7 @@ class Sub(RequestHandler, ScriptHandler):
                     result+=[list_index]
                 
                 return result , {'channel' :self.chthumbnails, 'description': self.desc , 'publishDate':self.pubdate,'sviews': self.sviews}
+
+
+
 
