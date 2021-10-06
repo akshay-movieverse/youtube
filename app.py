@@ -124,7 +124,7 @@ class Thirteen(Resource):
     @cross_origin(origin='*')
     def get(self,name):
         search = Sub(name)
-        return json.dumps(search.result())
+        return json.loads(search.result())
 
 
 class Seventy(Resource):
